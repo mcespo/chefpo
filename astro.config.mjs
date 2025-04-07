@@ -13,10 +13,7 @@ export default defineConfig({
       sidebar: [
         {
           label: "Meals",
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Pita", slug: "meals/pita" },
-          ],
+          autogenerate: { directory: "meals" },
         },
       ],
     }),
