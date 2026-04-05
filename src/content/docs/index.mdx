@@ -1,13 +1,54 @@
 ---
 title: Chefpo
-description: Chefpo!
+description: A personal recipe collection — tested, refined, and made to share.
 template: splash
 hero:
-  tagline: Chefpo
-  image:
-    file: ../../assets/houston.webp
+  tagline: Recipes I actually make.
   actions:
     - text: Meals
       link: /meals/
       icon: right-arrow
+    - text: Drinks
+      link: /drinks/
+      icon: right-arrow
+      variant: minimal
 ---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+This is my personal recipe collection — a living document of things I've cooked, tested, and dialed in over time. No fluff, no life stories before the ingredients. Family and friends are welcome here too.
+
+## What's cooking
+
+<CardGrid>
+  <Card title="Breakfast" icon="sun">
+    Crepes, waffles, pancakes, German pancakes, French toast, oatmeal. Morning staples worth repeating.
+
+    [Browse Breakfast →](/meals/breakfast/crepes/)
+  </Card>
+  <Card title="Mains" icon="star">
+    Pad Thai, Pad See Ew, Ricotta Gnocchi, Ropa Vieja. The dinners I keep coming back to.
+
+    [Browse Mains →](/meals/mains/pad-thai/)
+  </Card>
+  <Card title="Baked Goods" icon="open-book">
+    Sourdough, baguettes, rye, pita, tortillas, scones. More bread than is reasonable.
+
+    [Browse Baked Goods →](/meals/baked-goods/alexis-gabriel-sourdough-bread/)
+  </Card>
+  <Card title="Drinks" icon="rocket">
+    Vietnamese iced coffee, moka pot espresso, papelón con limón.
+
+    [Browse Drinks →](/drinks/ca-phe-sua-da/)
+  </Card>
+  <Card title="Pantry" icon="setting">
+    The building blocks — tamarind paste, chickpeas. Things worth making from scratch.
+
+    [Browse Pantry →](/meals/pantry/tamarind-paste/)
+  </Card>
+  <Card title="Treats" icon="heart">
+    Rice Krispy treats. Just the one for now.
+
+    [Browse Treats →](/meals/treats/rice-krispy-treats/)
+  </Card>
+</CardGrid>

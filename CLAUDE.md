@@ -1,6 +1,15 @@
 # chefpo — Claude Instructions
 
-A personal recipe site built with [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/). Recipes live as `.mdx` files under `src/content/docs/` and are organized into two categories: `meals/` and `drinks/`.
+A personal recipe site built with [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/). Recipes live as `.mdx` files under `src/content/docs/` and are organized into `meals/` and `drinks/`.
+
+**Meals** are further split into subcategories:
+- `meals/breakfast/` — morning food
+- `meals/baked-goods/` — breads, flatbreads, scones
+- `meals/mains/` — dinner and lunch dishes
+- `meals/pantry/` — base ingredients and preparations
+- `meals/treats/` — sweets and snacks
+
+**Drinks** are currently a flat list under `drinks/` — subcategories will be added when the volume warrants it.
 
 ---
 
@@ -17,12 +26,12 @@ If content module errors appear after adding new MDX files, clear the `.astro` c
 
 ## Adding a Recipe
 
-All recipes follow the same MDX structure. Use `src/content/docs/meals/oven-baked-french-toast.mdx` as a reference — it is a clean, simple example.
+All recipes follow the same MDX structure. Use `src/content/docs/meals/breakfast/oven-baked-french-toast.mdx` as a reference — it is a clean, simple example.
 
 ### File Naming
 
 - Lowercase kebab-case: `fruit-scone.mdx`, `steel-cut-oatmeal.mdx`
-- Place under `meals/` or `drinks/` accordingly
+- Place under the correct subcategory: `meals/breakfast/`, `meals/baked-goods/`, `meals/mains/`, `meals/pantry/`, `meals/treats/`, or `drinks/`
 - If multiple versions of the same recipe exist, suffix with the source abbreviation: `german-pancake-atk.mdx` vs `german-pancake.mdx`
 
 ### Frontmatter
@@ -47,11 +56,14 @@ Always import what you use. Common imports:
 
 ```mdx
 import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
-import VideoFrame from "../../../components/VideoFrame.astro";
+import VideoFrame from "../../../../components/VideoFrame.astro";
 ```
 
 - Only include `VideoFrame` if a video URL is available.
 - Only include `Aside`, `Tabs`, `TabItem` if they are used in the file.
+- **VideoFrame import path depends on file location:**
+  - Meals subcategory (`meals/breakfast/`, `meals/mains/`, etc.): `../../../../components/VideoFrame.astro`
+  - Drinks (`drinks/`): `../../../components/VideoFrame.astro`
 
 ### Page Structure
 
@@ -201,3 +213,7 @@ When using tabs, drop heading levels inside each tab to `####` to avoid conflict
 - When a user pastes a recipe in any format, clean it up into the standard structure above without adding content beyond what was provided.
 - When the user says "same format as the other recipes," they mean this structure exactly.
 - Work in Claude Code when manipulating the repo directly. An artifact to paste into Claude Code is sufficient when working in Claude Chat.
+
+### Index pages — always keep up to date
+
+Both `src/content/docs/meals/index.mdx` and `src/content/docs/drinks/index.mdx` serve as master lists for the site. **Whenever a recipe is added, update the relevant index page** — add a row to the correct category table with the recipe title linked and a brief one-liner description. This is not optional follow-up; treat it as part of every recipe addition.
