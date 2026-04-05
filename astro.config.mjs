@@ -15,6 +15,10 @@ export default defineConfig({
           label: "Meals",
           autogenerate: { directory: "meals" },
         },
+        {
+          label: "Drinks",
+          autogenerate: { directory: "drinks" },
+        },
       ],
     }),
   ],
