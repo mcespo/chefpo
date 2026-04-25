@@ -1,0 +1,269 @@
+---
+interface Props {
+  // Required
+  calories: number;
+  servings: number;
+  // Optional
+  servingSize?: string;
+  fat?: number;           fatDv?: number;
+  saturatedFat?: number;  saturatedFatDv?: number;
+  transFat?: number;
+  cholesterol?: number;   cholesterolDv?: number;   // mg
+  sodium?: number;        sodiumDv?: number;         // mg
+  carbs?: number;         carbsDv?: number;
+  fiber?: number;         fiberDv?: number;
+  totalSugars?: number;
+  addedSugars?: number;   addedSugarsDv?: number;
+  protein?: number;       proteinDv?: number;
+  vitaminD?: number;      vitaminDDv?: number;       // mcg
+  calcium?: number;       calciumDv?: number;        // mg
+  iron?: number;          ironDv?: number;           // mg
+  potassium?: number;     potassiumDv?: number;      // mg
+}
+
+const {
+  calories, servings, servingSize,
+  fat, fatDv,
+  saturatedFat, saturatedFatDv,
+  transFat,
+  cholesterol, cholesterolDv,
+  sodium, sodiumDv,
+  carbs, carbsDv,
+  fiber, fiberDv,
+  totalSugars,
+  addedSugars, addedSugarsDv,
+  protein, proteinDv,
+  vitaminD, vitaminDDv,
+  calcium, calciumDv,
+  iron, ironDv,
+  potassium, potassiumDv,
+} = Astro.props;
+
+const hasDv = [
+  fatDv, saturatedFatDv, cholesterolDv, sodiumDv,
+  carbsDv, fiberDv, addedSugarsDv, proteinDv,
+  vitaminDDv, calciumDv, ironDv, potassiumDv,
+].some((v) => v !== undefined);
+
+const hasVitamins = [vitaminD, calcium, iron, potassium].some((v) => v !== undefined);
+---
+
+<div class="nutrition">
+  <div class="nutrition-header">
+    <span class="nutrition-title">Nutrition Facts</span>
+    <span class="nutrition-meta">
+      {servings} serving{servings !== 1 ? "s" : ""}{servingSize ? ` · ${servingSize} each` : ""}
+    </span>
+  </div>
+
+  <div class="nutrition-calories">
+    <span>Calories</span>
+    <span class="nutrition-calories-value">{calories}</span>
+  </div>
+
+  {(fat !== undefined || carbs !== undefined || protein !== undefined || cholesterol !== undefined || sodium !== undefined) && (
+    <div class="nutrition-rows">
+      {hasDv && (
+        <div class="row row--dv-header">
+          <span></span>
+          <span class="dv-header-label">% Daily Value*</span>
+        </div>
+      )}
+
+      {fat !== undefined && (
+        <div class="row row--main">
+          <span class="row-label"><strong>Total Fat</strong> {fat}g</span>
+          {hasDv && <span class="row-dv">{fatDv !== undefined ? `${fatDv}%` : ""}</span>}
+        </div>
+      )}
+      {saturatedFat !== undefined && (
+        <div class="row row--sub">
+          <span class="row-label">Saturated Fat {saturatedFat}g</span>
+          {hasDv && <span class="row-dv">{saturatedFatDv !== undefined ? `${saturatedFatDv}%` : ""}</span>}
+        </div>
+      )}
+      {transFat !== undefined && (
+        <div class="row row--sub">
+          <span class="row-label"><em>Trans</em> Fat {transFat}g</span>
+          {hasDv && <span class="row-dv"></span>}
+        </div>
+      )}
+      {cholesterol !== undefined && (
+        <div class="row row--main">
+          <span class="row-label"><strong>Cholesterol</strong> {cholesterol}mg</span>
+          {hasDv && <span class="row-dv">{cholesterolDv !== undefined ? `${cholesterolDv}%` : ""}</span>}
+        </div>
+      )}
+      {sodium !== undefined && (
+        <div class="row row--main">
+          <span class="row-label"><strong>Sodium</strong> {sodium}mg</span>
+          {hasDv && <span class="row-dv">{sodiumDv !== undefined ? `${sodiumDv}%` : ""}</span>}
+        </div>
+      )}
+      {carbs !== undefined && (
+        <div class="row row--main">
+          <span class="row-label"><strong>Total Carbohydrate</strong> {carbs}g</span>
+          {hasDv && <span class="row-dv">{carbsDv !== undefined ? `${carbsDv}%` : ""}</span>}
+        </div>
+      )}
+      {fiber !== undefined && (
+        <div class="row row--sub">
+          <span class="row-label">Dietary Fiber {fiber}g</span>
+          {hasDv && <span class="row-dv">{fiberDv !== undefined ? `${fiberDv}%` : ""}</span>}
+        </div>
+      )}
+      {totalSugars !== undefined && (
+        <div class="row row--sub">
+          <span class="row-label">Total Sugars {totalSugars}g</span>
+          {hasDv && <span class="row-dv"></span>}
+        </div>
+      )}
+      {addedSugars !== undefined && (
+        <div class="row row--subsub">
+          <span class="row-label">Includes {addedSugars}g Added Sugars</span>
+          {hasDv && <span class="row-dv">{addedSugarsDv !== undefined ? `${addedSugarsDv}%` : ""}</span>}
+        </div>
+      )}
+      {protein !== undefined && (
+        <div class="row row--main">
+          <span class="row-label"><strong>Protein</strong> {protein}g</span>
+          {hasDv && <span class="row-dv">{proteinDv !== undefined ? `${proteinDv}%` : ""}</span>}
+        </div>
+      )}
+    </div>
+  )}
+
+  {hasVitamins && (
+    <div class="nutrition-vitamins">
+      {vitaminD !== undefined && (
+        <span>Vitamin D {vitaminD}mcg{vitaminDDv !== undefined ? ` ${vitaminDDv}%` : ""}</span>
+      )}
+      {calcium !== undefined && (
+        <span>Calcium {calcium}mg{calciumDv !== undefined ? ` ${calciumDv}%` : ""}</span>
+      )}
+      {iron !== undefined && (
+        <span>Iron {iron}mg{ironDv !== undefined ? ` ${ironDv}%` : ""}</span>
+      )}
+      {potassium !== undefined && (
+        <span>Potassium {potassium}mg{potassiumDv !== undefined ? ` ${potassiumDv}%` : ""}</span>
+      )}
+    </div>
+  )}
+
+  <p class="nutrition-note">
+    {hasDv
+      ? "* % Daily Value based on a 2,000 calorie diet · Estimated values"
+      : "Per serving · Estimated values"}
+  </p>
+</div>
+
+<style>
+  .nutrition {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    font-size: var(--sl-text-sm);
+    margin-block: 1.5rem;
+    max-width: 28rem;
+  }
+
+  .nutrition-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.6rem 1rem;
+    background-color: var(--sl-color-bg-sidebar);
+    border-bottom: 1px solid var(--sl-color-hairline);
+  }
+
+  .nutrition-title {
+    font-weight: 600;
+    color: var(--sl-color-text-accent);
+    font-size: var(--sl-text-base);
+  }
+
+  .nutrition-meta {
+    color: var(--sl-color-gray-3);
+  }
+
+  .nutrition-calories {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 2px solid var(--sl-color-hairline);
+  }
+
+  .nutrition-calories-value {
+    font-size: var(--sl-text-2xl);
+    font-weight: 700;
+    color: var(--sl-color-text-accent);
+  }
+
+  .nutrition-rows {
+    border-bottom: 1px solid var(--sl-color-hairline);
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.25rem 1rem;
+    border-bottom: 1px solid var(--sl-color-hairline-light, var(--sl-color-hairline));
+    gap: 0.5rem;
+  }
+
+  .row:last-child {
+    border-bottom: none;
+  }
+
+  .row--dv-header {
+    padding-block: 0.2rem;
+  }
+
+  .dv-header-label {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .row--sub .row-label {
+    padding-left: 1.25rem;
+  }
+
+  .row--subsub .row-label {
+    padding-left: 2.25rem;
+  }
+
+  .row-label {
+    flex: 1;
+  }
+
+  .row-dv {
+    font-weight: 600;
+    color: var(--sl-color-text-accent);
+    text-align: right;
+    flex-shrink: 0;
+    min-width: 2.5rem;
+  }
+
+  .nutrition-vitamins {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding: 0.5rem 1rem;
+    border-top: 4px solid var(--sl-color-hairline);
+    border-bottom: 1px solid var(--sl-color-hairline);
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-text);
+  }
+
+  .nutrition-note {
+    margin: 0;
+    padding: 0.4rem 1rem;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+    font-style: italic;
+  }
+</style>
