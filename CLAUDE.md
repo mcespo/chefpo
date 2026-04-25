@@ -192,7 +192,7 @@ When using tabs, drop heading levels inside each tab to `####` to avoid conflict
 ## Descriptions
 
 - Keep them brief — 2–4 sentences
-- Credit the source: "Based on the recipe by America's Test Kitchen."
+- Credit the source with a link when a URL is available: `Based on the recipe by [Cookie and Kate](https://cookieandkate.com/...).` — link the source name, not the word "recipe".
 - Include yield or timing info inline if useful: `**Yield:** About 8 waffles`
 - The owner's personal voice is welcome — preserve it when cleaning up user-supplied text
 
