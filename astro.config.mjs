@@ -9,9 +9,9 @@ export default defineConfig({
     starlight({
       plugins: [starlightThemeVintage()],
       title: "Chefpo",
-      social: [
-        { icon: "github", label: "GitHub", href: "https://github.com/withastro/starlight" },
-      ],
+      components: {
+        SocialIcons: "./src/components/overrides/SocialIcons.astro",
+      },
       sidebar: [
         {
           label: "Meals",

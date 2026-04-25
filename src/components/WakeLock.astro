@@ -1,0 +1,156 @@
+---
+---
+<wake-lock-toggle>
+  <button
+    data-state="off"
+    data-tooltip="Keep screen awake"
+    aria-label="Keep screen awake"
+    aria-pressed="false"
+  >
+    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+      <path class="cup-body" d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+      <path class="cup-handle" d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+      <line class="steam" x1="6" x2="6" y1="2" y2="4"/>
+      <line class="steam" x1="10" x2="10" y1="2" y2="4"/>
+      <line class="steam" x1="14" x2="14" y1="2" y2="4"/>
+    </svg>
+  </button>
+</wake-lock-toggle>
+
+<style>
+  @layer starlight.core {
+    wake-lock-toggle {
+      display: contents;
+    }
+
+    button {
+      position: relative;
+      color: var(--sl-color-text-accent);
+      padding: 0.5em;
+      margin: -0.5em;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    button:hover {
+      color: var(--sl-color-white);
+    }
+
+    button[data-state="on"] {
+      color: var(--sl-color-white);
+    }
+
+    /* SVG base: everything stroked, nothing filled */
+    .icon {
+      width: 1em;
+      height: 1em;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      overflow: visible;
+    }
+
+    /* ON state: fill the cup body, drop its stroke */
+    button[data-state="on"] .cup-body {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    /* Tooltip */
+    button::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      white-space: nowrap;
+      background: var(--sl-color-bg);
+      color: var(--sl-color-text);
+      border: 1px solid var(--sl-color-hairline);
+      border-radius: 0.25rem;
+      padding: 0.25em 0.6em;
+      font-size: var(--sl-text-xs);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 10;
+    }
+
+    button:hover::after,
+    button:focus-visible::after {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  class WakeLockToggle extends HTMLElement {
+    private wakeLock: WakeLockSentinel | null = null;
+    private enabled = false;
+
+    connectedCallback() {
+      if (!('wakeLock' in navigator)) {
+        this.style.display = 'none';
+        return;
+      }
+
+      this.enabled = localStorage.getItem('chefpo-wake-lock') === 'true';
+      const btn = this.querySelector('button')!;
+
+      if (this.enabled) this.acquire();
+      this.update();
+
+      btn.addEventListener('click', () => {
+        this.enabled = !this.enabled;
+        localStorage.setItem('chefpo-wake-lock', String(this.enabled));
+        if (this.enabled) {
+          this.acquire();
+        } else {
+          this.release();
+        }
+        this.update();
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && this.enabled) {
+          this.acquire();
+        }
+      });
+    }
+
+    private async acquire() {
+      try {
+        this.wakeLock = await navigator.wakeLock.request('screen');
+      } catch {
+        this.enabled = false;
+        localStorage.setItem('chefpo-wake-lock', 'false');
+        this.update();
+      }
+    }
+
+    private release() {
+      this.wakeLock?.release();
+      this.wakeLock = null;
+    }
+
+    private update() {
+      const btn = this.querySelector('button')!;
+      const on = this.enabled;
+      btn.setAttribute('aria-pressed', String(on));
+      btn.setAttribute('data-state', on ? 'on' : 'off');
+      btn.setAttribute('data-tooltip', on ? 'Screen awake' : 'Keep screen awake');
+      btn.setAttribute(
+        'aria-label',
+        on ? 'Screen staying awake, click to allow sleep' : 'Keep screen awake'
+      );
+    }
+  }
+
+  customElements.define('wake-lock-toggle', WakeLockToggle);
+</script>
