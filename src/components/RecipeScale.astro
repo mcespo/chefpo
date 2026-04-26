@@ -1,0 +1,133 @@
+---
+interface Ingredient {
+  item: string;
+  amount: string;
+  notes?: string;
+}
+
+interface Variant {
+  label: string;
+  ingredients: Ingredient[];
+}
+
+interface Props {
+  variants: Variant[];
+  default?: string;
+}
+
+const { variants, default: defaultLabel } = Astro.props;
+const defaultVariant = defaultLabel ?? variants[0]?.label;
+const hasNotes = variants.some(v => v.ingredients.some(i => i.notes));
+---
+
+<recipe-scale>
+  <div class="scale-toggle" role="group" aria-label="Recipe scale">
+    {variants.map(v => (
+      <button
+        class={v.label === defaultVariant ? 'active' : ''}
+        data-variant={v.label}
+        aria-pressed={v.label === defaultVariant ? 'true' : 'false'}
+      >
+        {v.label}
+      </button>
+    ))}
+  </div>
+
+  {variants.map(v => (
+    <table data-variant={v.label} class={v.label === defaultVariant ? 'is-active' : ''}>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Amount</th>
+          {hasNotes && <th>Notes</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {v.ingredients.map(ing => (
+          <tr>
+            <td>{ing.item}</td>
+            <td>{ing.amount}</td>
+            {hasNotes && <td>{ing.notes ?? ''}</td>}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ))}
+</recipe-scale>
+
+<style>
+  @layer starlight.components {
+    recipe-scale {
+      display: block;
+    }
+
+    .scale-toggle {
+      display: inline-flex;
+      width: fit-content;
+      background: var(--sl-color-bg-sidebar);
+      border: 1px solid var(--sl-color-hairline);
+      border-radius: 0.4rem;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+
+    .scale-toggle button {
+      padding: 0.35em 1.1em;
+      background: none;
+      border: none;
+      border-left: 1px solid var(--sl-color-hairline);
+      cursor: pointer;
+      color: var(--sl-color-gray-3);
+      font-size: var(--sl-text-sm);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .scale-toggle button:first-child {
+      border-left: none;
+    }
+
+    .scale-toggle button:hover:not(.active) {
+      background: var(--sl-color-hairline);
+      color: var(--sl-color-text);
+    }
+
+    .scale-toggle button.active {
+      background: var(--sl-color-accent);
+      color: var(--sl-color-white);
+    }
+
+    table[data-variant] {
+      display: none;
+    }
+
+    table[data-variant].is-active {
+      display: table;
+    }
+  }
+</style>
+
+<script>
+  class RecipeScale extends HTMLElement {
+    connectedCallback() {
+      const buttons = this.querySelectorAll<HTMLButtonElement>('.scale-toggle button');
+      const tables = this.querySelectorAll<HTMLTableElement>('table[data-variant]');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.variant!;
+
+          buttons.forEach(b => {
+            b.classList.toggle('active', b.dataset.variant === target);
+            b.setAttribute('aria-pressed', b.dataset.variant === target ? 'true' : 'false');
+          });
+
+          tables.forEach(t => {
+            t.classList.toggle('is-active', t.dataset.variant === target);
+          });
+        });
+      });
+    }
+  }
+
+  customElements.define('recipe-scale', RecipeScale);
+</script>

@@ -8,6 +8,7 @@ hero:
 
 import { Steps } from "@astrojs/starlight/components";
 import VideoFrame from "../../../../components/VideoFrame.astro";
+import RecipeScale from "../../../../components/RecipeScale.astro";
 
 ## Tamagoyaki, Kyodokan
 
@@ -24,14 +25,33 @@ A classic Japanese rolled omelette built up in thin, successive layers in a rect
 
 ### Ingredients
 
-| Item | Amount |
-| ---- | ------ |
-| large eggs, room temperature | x3 |
-| water or dashi stock, cold | 45g |
-| mirin | 10g |
-| light soy sauce | 10g |
-| granulated sugar | 15g |
-| neutral oil | 14g (15ml) |
+<RecipeScale
+  default="3 eggs"
+  variants={[
+    {
+      label: "3 eggs",
+      ingredients: [
+        { item: "large eggs, room temperature", amount: "x3" },
+        { item: "water or dashi stock, cold", amount: "45g" },
+        { item: "mirin", amount: "10g" },
+        { item: "light soy sauce", amount: "10g" },
+        { item: "granulated sugar", amount: "15g" },
+        { item: "neutral oil", amount: "14g (15ml)" },
+      ],
+    },
+    {
+      label: "5 eggs",
+      ingredients: [
+        { item: "large eggs, room temperature", amount: "x5" },
+        { item: "water or dashi stock, cold", amount: "75g" },
+        { item: "mirin", amount: "17g" },
+        { item: "light soy sauce", amount: "17g" },
+        { item: "granulated sugar", amount: "25g" },
+        { item: "neutral oil", amount: "23g (25ml)" },
+      ],
+    },
+  ]}
+/>
 
 ### Tools
 
