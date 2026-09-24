@@ -1,0 +1,55 @@
+---
+title: Recipe Title
+description: A brief plain-text description.
+lastUpdated: YYYY-MM-DD
+hero:
+  tagline: T A G L I N E !
+---
+
+{/*
+  Template notes — delete this block when writing a recipe.
+  - Frontmatter `title` is the recipe name only, no source.
+  - `hero` + `tagline` are optional; drop the whole block if unused. Never add `hero.image` until real images exist.
+  - Import only the components actually used (Steps is always used; add Aside/Tabs/TabItem as needed).
+  - VideoFrame: include only if the user supplied a YouTube URL. Import path:
+      meals/<subcategory>/ → "../../../../components/VideoFrame.astro"
+      drinks/             → "../../../components/VideoFrame.astro"
+  - Heading: "## Title, Source" when a source is known; "## Title" otherwise. VideoFrame title matches it exactly.
+*/}
+
+import { Steps } from "@astrojs/starlight/components";
+import VideoFrame from "../../../../components/VideoFrame.astro";
+
+## Recipe Title, Source Name
+
+<VideoFrame
+  title="Recipe Title, Source Name"
+  link="https://www.youtube.com/embed/VIDEO_ID"
+/>
+
+### Description
+
+Based on the recipe by [Source Name](https://example.com/recipe).
+
+**Yield:** About 8 servings
+
+### Ingredients
+
+| Item              | Amount         |
+| ----------------- | -------------- |
+| all-purpose flour | 390g (2½ cups) |
+| large eggs        | x2             |
+
+### Tools
+
+| Items       |
+| ----------- |
+| large bowl  |
+
+### Recipe
+
+<Steps>
+1. **Mix dry ingredients:** Step one.
+
+2. Step two.
+</Steps>
