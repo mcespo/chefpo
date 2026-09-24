@@ -15,9 +15,11 @@ hero:
       meals/<subcategory>/ → "../../../../components/VideoFrame.astro"
       drinks/             → "../../../components/VideoFrame.astro"
   - Heading: "## Title, Source" when a source is known; "## Title" otherwise. VideoFrame title matches it exactly.
+  - Badges + NutritionFacts are always included — see the style guide's "Dietary Badges" and "Nutrition" sections.
 */}
 
-import { Steps } from "@astrojs/starlight/components";
+import { Steps, Aside, Badge } from "@astrojs/starlight/components";
+import NutritionFacts from "../../../../components/NutritionFacts.astro";
 import VideoFrame from "../../../../components/VideoFrame.astro";
 
 ## Recipe Title, Source Name
@@ -32,6 +34,9 @@ import VideoFrame from "../../../../components/VideoFrame.astro";
 Based on the recipe by [Source Name](https://example.com/recipe).
 
 **Yield:** About 8 servings
+
+<Badge text="Vegetarian" variant="success" />
+<Badge text="Gluten" variant="caution" />
 
 ### Ingredients
 
@@ -53,3 +58,19 @@ Based on the recipe by [Source Name](https://example.com/recipe).
 
 2. Step two.
 </Steps>
+
+<NutritionFacts
+  calories={250}
+  servings={8}
+  servingSize="1 serving"
+  fat={10}          fatDv={13}
+  saturatedFat={2}  saturatedFatDv={10}
+  sodium={320}      sodiumDv={14}
+  carbs={35}        carbsDv={13}
+  fiber={2}         fiberDv={7}
+  protein={4}
+/>
+
+<Aside type="note">
+  **Estimated nutrition:** Calculated from the ingredients using USDA FoodData Central values. Assumes …
+</Aside>

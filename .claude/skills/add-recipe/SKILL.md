@@ -25,6 +25,7 @@ Turn user-supplied recipe content into a standard chefpo MDX page and register i
    - Use only what the user provided. Clean up and restructure; do not add ingredients, steps, or tips that weren't there.
    - Preserve the owner's personal voice in descriptions and notes.
    - Set `lastUpdated` to today's date.
+   - Add dietary/allergen `<Badge>`s under the yield, and end the page with a `<NutritionFacts />` panel. Use the source's published nutrition if it has any; otherwise estimate from the ingredients and add a note saying so (see the style guide's Nutrition section).
    - For the full reference example, see `src/content/docs/meals/breakfast/oven-baked-french-toast.mdx`.
 
 4. **Update the index page** — required, not optional:

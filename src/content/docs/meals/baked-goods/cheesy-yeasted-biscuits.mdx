@@ -6,7 +6,8 @@ hero:
   tagline: F L A K Y + F L U F F Y !
 ---
 
-import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
+import { Steps, Aside, Badge, Tabs, TabItem } from "@astrojs/starlight/components";
+import NutritionFacts from "../../../../components/NutritionFacts.astro";
 import VideoFrame from "../../../../components/VideoFrame.astro";
 
 ## Cheesy Yeasted Biscuits, Claire Saffitz
@@ -23,6 +24,10 @@ Based on the recipe by Claire Saffitz (Dessert Person). Cheesy, laminated yeaste
 The **Protein-Forward** version swaps the buttermilk for blended cottage cheese (acts like buttermilk while adding casein protein) and replaces a portion of the flour with unflavored whey protein isolate. Steamed, finely chopped broccoli folds into the dough alongside the cheddar.
 
 **Yield:** 12 biscuits
+
+<Badge text="Vegetarian" variant="success" />
+<Badge text="Dairy" variant="caution" />
+<Badge text="Gluten" variant="caution" />
 
 ### Ingredients
 
@@ -234,7 +239,60 @@ The **Protein-Forward** version swaps the buttermilk for blended cottage cheese 
 
 | Element        | Original                                  | Protein-Forward                                      | Why                                                                                    |
 | -------------- | ----------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| protein source | buttermilk & cheese (~7g protein/biscuit) | cottage cheese + whey isolate (~14g protein/biscuit) | doubles the protein while keeping the structure                                        |
+| protein source | buttermilk & cheese (~8g protein/biscuit) | cottage cheese + whey isolate (~11g protein/biscuit) | more protein and fewer calories while keeping the structure                            |
 | hydration base | buttermilk                                | blended cottage cheese + milk                        | replicates buttermilk's acidity and moisture, with lots of casein                      |
 | add-ins        | cheddar only                              | cheddar + chopped broccoli                           | adds color, texture, and micronutrients; pat the broccoli dry so water doesn't ruin the layers |
 | bake temp      | 400°F (200°C)                             | 385°F (195°C)                                        | whey browns faster; the lower temp keeps the tops from burning before the center cooks |
+
+### Nutrition
+
+<Tabs syncKey="biscuit-version">
+  <TabItem label="Original">
+
+    <NutritionFacts
+      calories={310}
+      servings={12}
+      servingSize="1 biscuit"
+      fat={19}          fatDv={24}
+      saturatedFat={11} saturatedFatDv={57}
+      cholesterol={52}  cholesterolDv={17}
+      sodium={320}      sodiumDv={14}
+      carbs={27}        carbsDv={10}
+      fiber={1}         fiberDv={3}
+      totalSugars={3}
+      addedSugars={2}   addedSugarsDv={4}
+      protein={8}
+      vitaminD={0.3}    vitaminDDv={2}
+      calcium={147}     calciumDv={11}
+      iron={1.5}        ironDv={8}
+      potassium={88}    potassiumDv={2}
+    />
+
+  </TabItem>
+  <TabItem label="Protein-Forward">
+
+    <NutritionFacts
+      calories={250}
+      servings={12}
+      servingSize="1 biscuit"
+      fat={15}          fatDv={19}
+      saturatedFat={9}  saturatedFatDv={44}
+      cholesterol={41}  cholesterolDv={14}
+      sodium={330}      sodiumDv={14}
+      carbs={19}        carbsDv={7}
+      fiber={1}         fiberDv={3}
+      totalSugars={3}
+      addedSugars={2}   addedSugarsDv={3}
+      protein={11}
+      vitaminD={0.3}    vitaminDDv={2}
+      calcium={120}     calciumDv={9}
+      iron={1}          ironDv={6}
+      potassium={105}   potassiumDv={2}
+    />
+
+  </TabItem>
+</Tabs>
+
+<Aside type="note">
+  **How these were estimated:** No published nutrition info exists for this recipe, so these are ingredient-by-ingredient estimates from USDA FoodData Central values, divided across 12 biscuits. They assume Diamond Crystal salt, low-fat buttermilk, 2% cottage cheese, ~1½ tbsp of butter for brushing, and a generic unflavored whey isolate (~90% protein) — your brand's label will shift the protein number. Most of the fat comes from the butter: 191g in the original, 148g in the protein-forward version.
+</Aside>
